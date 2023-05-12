@@ -4,10 +4,18 @@ import com.example.mybatis_demo.model.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
     // 查询 根据用户id查询用户名
     public UserInfo getUserById(@Param("id") Integer id); // @Param("id"): xml中的参数id, Integer id: 参数id
+
+    // 查询 根据全名查询用户
+    public UserInfo getUserByFullName(@Param("username") String name);
+
+    // 获取列表, 根据创建时间进行倒序或正序
+    public List<UserInfo> getOrderList(@Param("order") String order);
 
     // 修改 根据id修改用户名
     // 返回值是指受影响的行数

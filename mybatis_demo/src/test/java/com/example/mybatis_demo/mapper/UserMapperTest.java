@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest // 该注解表示当前单元测试运行在Spring Boot中
@@ -62,4 +64,19 @@ class UserMapperTest {
         Assertions.assertEquals(1, res);
         System.out.println("自增id: " + userInfo.getId());
     }
+
+    @Test
+    void getUserByFullName() {
+        UserInfo userInfo = userMapper.getUserByFullName("admin");
+        Assertions.assertNotNull(userInfo);  // 断言
+        System.out.println(userInfo);
+    }
+
+    @Test
+    void getOrderList() {
+        List<UserInfo> userInfo = userMapper.getOrderList("desc");
+        Assertions.assertNotNull(userInfo);  // 断言
+        System.out.println(userInfo);
+    }
+
 }
