@@ -16,4 +16,11 @@ public interface UserMapper {
     // 删除 根据id删除用户名
     // 返回值是指受影响的行数
     public int delete(@Param("id") Integer id);
+
+    // 添加用户,并返回受影响的行数
+    public int add(UserInfo userInfo);
+
+    // 添加用户, 并返回受影响的行数和自增ID
+    public int addGetId(UserInfo userInfo);
+
 }

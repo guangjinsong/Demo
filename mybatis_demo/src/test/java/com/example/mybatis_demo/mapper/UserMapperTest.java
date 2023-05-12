@@ -1,6 +1,7 @@
 package com.example.mybatis_demo.mapper;
 
 import com.example.mybatis_demo.model.UserInfo;
+import org.apache.catalina.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,28 @@ class UserMapperTest {
     void delete() {
         int res = userMapper.delete(2);
         Assertions.assertEquals(1, res);
+    }
+
+    @Test
+    @Transactional
+    void add() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername("sgy");
+        userInfo.setPassword("123");
+        userInfo.setPhoto("default.png");
+        int res = userMapper.add(userInfo);
+        Assertions.assertEquals(1, res);
+    }
+
+    @Test
+    @Transactional
+    void addGetId() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUsername("sgd");
+        userInfo.setPassword("456");
+        userInfo.setPhoto("default.png");
+        int res = userMapper.addGetId(userInfo);
+        Assertions.assertEquals(1, res);
+        System.out.println("自增id: " + userInfo.getId());
     }
 }

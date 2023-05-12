@@ -17,4 +17,18 @@
         delete from userinfo where id=#{id}
     </delete>
 
+<!--     添加用户并返回受影响的行数.  如果返回的是受影响的行数, 那么就不用设置resultType-->
+<!--    注意"{}"中是指对象中的属性名, 注意此参数一定要和对象中的参数名相同-->
+    <insert id="add">
+        insert into userinfo(username, password, photo)
+        values(#{username}, #{password}, #{photo})
+    </insert>
+
+<!--    添加用户, 返回受影响的函数和自增id-->
+<!--    keyProperty: 生成的自增id要赋值给对象的哪个属性-->
+<!--    keyColumn: 设置数据表中哪个字段自增-->
+    <insert id="addGetId" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into userinfo(username, password, photo)
+        values(#{username}, #{password}, #{photo})
+    </insert>
 </mapper>
