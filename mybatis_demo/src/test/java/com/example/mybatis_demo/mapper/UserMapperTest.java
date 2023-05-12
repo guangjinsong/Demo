@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -20,8 +21,21 @@ class UserMapperTest {
 
     @Test
     void getUserById() {
-        UserInfo userInfo = userMapper.getUserById(2);
+        UserInfo userInfo = userMapper.getUserById(1);
         Assertions.assertNotNull(userInfo);  // 断言
         System.out.println(userInfo);
+    }
+    @Test
+    @Transactional  // 在单元测试中添加此注解, 表示在方法执行完回滚事务. 方法执行完会修改数据库中的内容(污染数据库)
+    void update() {
+        int result = userMapper.update(2, "ttt");
+        Assertions.assertEquals(1, result);
+    }
+
+    @Test
+    @Transactional
+    void delete() {
+        int res = userMapper.delete(2);
+        Assertions.assertEquals(1, res);
     }
 }
