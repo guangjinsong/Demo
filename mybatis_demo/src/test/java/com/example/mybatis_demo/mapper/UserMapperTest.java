@@ -1,6 +1,7 @@
 package com.example.mybatis_demo.mapper;
 
 import com.example.mybatis_demo.model.UserInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,9 +13,11 @@ import javax.annotation.Resource;
 
 import java.util.List;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest // 该注解表示当前单元测试运行在Spring Boot中
+@Slf4j
 class UserMapperTest {
     @Resource
 //    @Autowired 由于UserMapper加了@Mapper注解(@Mapper来自Mybatis), 而且@Autowired是来自Spring,
@@ -79,4 +82,21 @@ class UserMapperTest {
         System.out.println(userInfo);
     }
 
+    @Test
+//    @Transactional
+    void login() {
+        String username = "admin";
+        String password = "' or 1='1";
+        UserInfo userInfo = userMapper.login(username, password);
+        log.info("用户信息: " + userInfo);
+    }
+
+
+    @Test
+    void getListByName() {
+        String username = "a";
+        List<UserInfo> list = userMapper.getListByName(username);
+        log.info("用户列表: " + list);
+
+    }
 }

@@ -31,4 +31,9 @@ public interface UserMapper {
     // 添加用户, 并返回受影响的行数和自增ID
     public int addGetId(UserInfo userInfo);
 
+    // 登录功能
+    public UserInfo login(@Param("username") String username, @Param("password") String password);
+
+    // 模糊查询 根据用户名进行模糊查询
+    public List<UserInfo> getListByName(@Param("username") String username);
 }
