@@ -39,9 +39,9 @@ class UserMapperTest {
     }
 
     @Test
-    @Transactional
+//    @Transactional
     void delete() {
-        int res = userMapper.delete(2);
+        int res = userMapper.delete(6);
         Assertions.assertEquals(1, res);
     }
 
