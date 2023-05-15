@@ -36,4 +36,8 @@ public interface UserMapper {
 
     // 模糊查询 根据用户名进行模糊查询
     public List<UserInfo> getListByName(@Param("username") String username);
+
+    // 一对多 多表查询
+    // 查询用户及发表的所有文章, 根据用户id
+    public UserInfo getUserAndArticleByUid(@Param("uid") Integer uid);
 }

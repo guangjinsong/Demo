@@ -2,9 +2,34 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.mybatis_demo.mapper.UserMapper">
 
+    <resultMap id="BaseMap" type="com.example.mybatis_demo.model.UserInfo">
+<!--            主键映射-->
+    <id column="id" property="id"></id>
+<!--            普通属性映射-->
+    <result column="username" property="name"></result>
+    <result column="password" property="password"></result>
+    <result column="photo" property="photo"></result>
+    <result column="createtime" property="createtime"></result>
+    <result column="updatetime" property="updatetime"></result>
+    <result column="state" property="state"></result>
+        <collection property="artlist"
+                    resultMap="com.example.mybatis_demo.mapper.ArticleMapper.BaseMap"
+                    columnPrefix="a_"></collection>
+    </resultMap>
+    <select id="getUserAndArticleByUid" resultMap="BaseMap">
+        select u.*, a.id a_id, a.title a_title, a.content a_content, a.createtime a_createtime, a.updatetime a_updatetime
+        from userinfo u left join articleinfo a on u.id=a.uid where u.id=#{uid}
+    </select>
+
+
+
     <!-- 查询, 根据id查询 需要返回值, 那么需要显示的声明, 受影响的行数除外-->
-    <select id="getUserById" resultType="com.example.mybatis_demo.model.UserInfo">
-            select * from userinfo where id=${id}
+<!--    <select id="getUserById" resultType="com.example.mybatis_demo.model.UserInfo">-->
+<!--            select * from userinfo where id=#{id}-->
+<!--    </select>-->
+<!--    使用ResultMap-->
+    <select id="getUserById" resultMap="BaseMap">
+        select * from userinfo where id=#{id}
     </select>
 
     <!-- 登录功能-->
@@ -52,5 +77,7 @@
         insert into userinfo(username, password, photo)
         values(#{username}, #{password}, #{photo})
     </insert>
+
+<!--    多表查询-->
 
 </mapper>

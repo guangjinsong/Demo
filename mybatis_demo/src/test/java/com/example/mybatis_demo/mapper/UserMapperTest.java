@@ -49,7 +49,7 @@ class UserMapperTest {
     @Transactional
     void add() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUsername("sgy");
+//        userInfo.setUsername("sgy");
         userInfo.setPassword("123");
         userInfo.setPhoto("default.png");
         int res = userMapper.add(userInfo);
@@ -60,7 +60,7 @@ class UserMapperTest {
     @Transactional
     void addGetId() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUsername("sgd");
+//        userInfo.setUsername("sgd");
         userInfo.setPassword("456");
         userInfo.setPhoto("default.png");
         int res = userMapper.addGetId(userInfo);
@@ -98,5 +98,11 @@ class UserMapperTest {
         List<UserInfo> list = userMapper.getListByName(username);
         log.info("用户列表: " + list);
 
+    }
+
+    @Test
+    void getUserAndArticleByUid() {
+        UserInfo userInfo = userMapper.getUserAndArticleByUid(1);
+        log.info("用户详情: " + userInfo);
     }
 }
