@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatis_demo.mapper.UserMapper">
+
+    <resultMap id="BaseMap" type="com.example.mybatis_demo.model.UserInfo">
+<!--            主键映射-->
+    <id column="id" property="id"></id>
+<!--            普通属性映射-->
+    <result column="username" property="name"></result>
+    <result column="password" property="password"></result>
+    <result column="photo" property="photo"></result>
+    <result column="createtime" property="createtime"></result>
+    <result column="updatetime" property="updatetime"></result>
+    <result column="state" property="state"></result>
+        <collection property="artlist"
+                    resultMap="com.example.mybatis_demo.mapper.ArticleMapper.BaseMap"
+                    columnPrefix="a_"/>
+    </resultMap>
+    <select id="getUserAndArticleByUid" resultMap="BaseMap">
+        select u.*, a.id a_id, a.title a_title, a.content a_content, a.createtime a_createtime, a.updatetime a_updatetime
+        from userinfo u left join articleinfo a on u.id=a.uid where u.id=#{uid}
+    </select>
+
+
+    <!-- 查询, 根据id查询 需要返回值, 那么需要显示的声明, 受影响的行数除外-->
+<!--    <select id="getUserById" resultType="com.example.mybatis_demo.model.UserInfo">-->
+<!--            select * from userinfo where id=#{id}-->
+<!--    </select>-->
+<!--    使用ResultMap-->
+    <select id="getUserById" resultMap="BaseMap">
+        select * from userinfo
+         <where>
+             and id=#{id}
+         </where>
+    </select>
+
+    <!-- 登录功能-->
+    <select id="login" resultType="com.example.mybatis_demo.model.UserInfo">
+        select * from userinfo where username='${username}' and password='${password}'
+    </select>
+
+    <!-- 查询, 根据全名查询-->
+    <select id="getUserByFullName" resultType="com.example.mybatis_demo.model.UserInfo">
+        select * from userinfo where username=${username}
+    </select>
+
+    <!-- 获取列表, 根据创建时间进行倒序或正序-->
+    <select id="getOrderList" resultType="com.example.mybatis_demo.model.UserInfo">
+        select * from userinfo order by createtime ${order}
+    </select>
+
+    <!-- 模糊查询 根据用户名进行模糊查询-->
+    <select id="getListByName" resultType="com.example.mybatis_demo.model.UserInfo">
+        select * from userinfo where username like concat ('%', #{username}, '%')
+    </select>
+
+
+    <!-- 根据用户id修改用户名称-->
+    <update id="update">
+        update userinfo set username=#{name} where id=#{id}
+    </update>
+
+    <!-- set标签 根据用户id修改用户名称-->
+    <update id="update2">
+        update userinfo
+        <set>
+            <if test="username!=null">
+                username=#{username},
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="photo!=null">
+                photo=#{photo}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+    <!-- 删除 根据id删除用户名-->
+    <delete id="delete">
+        delete from userinfo where id=#{id}
+    </delete>
+
+    <!--  根据id 删除多个用户  -->
+    <delete id="delIds">
+        DELETE FROM userinfo WHERE id IN
+        <foreach collection="ids" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--     添加用户并返回受影响的行数.  如果返回的是受影响的行数, 那么就不用设置resultType-->
+<!--    注意"{}"中是指对象中的属性名, 注意此参数一定要和对象中的参数名相同-->
+    <insert id="add">
+        insert into userinfo(username, password, photo)
+        values(#{username}, #{password}, #{photo})
+    </insert>
+
+<!--    添加用户, 返回受影响的函数和自增id-->
+<!--    keyProperty: 生成的自增id要赋值给对象的哪个属性-->
+<!--    keyColumn: 设置数据表中哪个字段自增-->
+    <insert id="addGetId" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into userinfo(username, password, photo)
+        values(#{username}, #{password}, #{photo})
+    </insert>
+
+<!--    多动态SQL-->
+<!--    if标签-->
+<!--    添加用户头像-->
+    <insert id="add2">
+        insert into userinfo(username, password
+        <if test="photo!=null">
+           ,photo
+
+        </if>)
+        values(#{name}, #{password}
+        <if test="photo!=null">
+            ,#{photo}
+        </if>)
+    </insert>
+
+<!--    trim标签-->
+    <insert id="add3">
+        insert into userinfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null">
+                username,
+            </if>
+            <if test="password!=null">
+                password,
+            </if>
+            <if test="photo!=null">
+                photo
+            </if>
+        </trim>
+        values
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username!=null">
+                #{username},
+            </if>
+            <if test="password!=null">
+                #{password},
+            </if>
+            <if test="photo!=null">
+                #{photo}
+            </if>
+        </trim>
+    </insert>
+
+
+
+
+</mapper>
