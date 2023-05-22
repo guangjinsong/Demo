@@ -3,6 +3,7 @@ package com.example.demoselenium;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -78,26 +79,64 @@ public class SeleniumTest {
         // 输入百度网址
         driver.get("https://www.baidu.com/");
 
-        System.out.println("-----------------------------------");
         // 获取当前页面的句柄
         String currentHandle = driver.getWindowHandle();
         System.out.println("current handle: " + currentHandle);
 
         // 获取新标签页的句柄
-        driver.findElement(By.cssSelector("#s-top-left > a:nth-child(7)")).click();
+        driver.findElement(By.cssSelector("#hotsearch-content-wrapper > li:nth-child(2) > a > span.title-content-title")).click();
         String nextHandle = driver.getWindowHandle();
         System.out.println("next handle: " + nextHandle); // 此时的句柄和current handle句柄一样
 
 
         // 获取所有标签页的句柄
+        // 且跳到别的页面的句柄
         Set<String> set = driver.getWindowHandles();
         for (String str : set) {
-            System.out.println("all handles: " + str);
+            if (!str.equals(currentHandle)) {
+                driver.switchTo().window(str);  // 页面跳转
+                String title = driver.getTitle();
+                System.out.println("--------" + title);
+            }
         }
-        System.out.println("-----------------------------------");
+        Thread.sleep(2000);
+
+        // 窗口最大化
+        driver.manage().window().maximize();
+
+        // 窗口最小化
+        driver.manage().window().minimize();
+
+        // 设置窗口指定的尺寸
+        driver.manage().window().setSize(new Dimension(1000, 800));
+
+        // 置底
+        driver.executeScript("window.scroll(0, document.body.scrollHeight)");
+        Thread.sleep(2000);
+
+        // 置顶
+        driver.executeScript("window.scroll(0, document.body.scrollTop)");
+        Thread.sleep(2000);
 
         // 释放掉驱动对象 关闭浏览器
         driver.quit();
+    }
+
+
+    @Test
+    public void navigateTest() throws InterruptedException {
+        // 创建驱动对象
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--remote-allow-origins=*");//解决 403 出错问题
+        ChromeDriver driver = new ChromeDriver(chromeOptions);
+        Thread.sleep(3000);
+
+        // 输入百度网址
+        driver.get("https://www.baidu.com/");
+
+        // 释放掉驱动对象 关闭浏览器
+        driver.quit();
+
     }
 
 }
