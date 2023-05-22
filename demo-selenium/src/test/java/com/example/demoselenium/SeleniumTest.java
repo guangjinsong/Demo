@@ -5,4 +5,5 @@ package com.example.demoselenium;
  * @create 2023-05-22 8:17
  */
 public class SeleniumTest {
+
 }
