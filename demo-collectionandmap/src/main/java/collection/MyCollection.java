@@ -1,6 +1,6 @@
 package collection;
 
-import java.util.Collection;
+import java.util.LinkedList;
 
 /**
  * @author sgj
@@ -8,6 +8,6 @@ import java.util.Collection;
  */
 public class MyCollection {
     public static void main(String[] args) {
-        Collection
+        LinkedList list = new LinkedList<>();
     }
 }
