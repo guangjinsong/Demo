@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mybatis_demo.mapper.ArticleMapper">
+    <resultMap id="BaseMap" type="com.example.mybatis_demo.model.ArticleInfo">
+        <id column="id" property="id"></id>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"></result>
+        <result column="createtime" property="createtime"></result>
+        <result column="updatetime" property="updatetime"></result>
+        <result column="uid" property="uid"></result>
+        <result column="rcount" property="rcount"></result>
+        <result column="state" property="state"></result>
+        <association property="userInfo"
+                     resultMap="com.example.mybatis_demo.mapper.UserMapper.BaseMap"
+                     columnPrefix="u_"
+                     ></association>
+    </resultMap>
+    
+    
+    <select id="getArticleById" resultMap="BaseMap">
+        select a.*, u.id u_id, u.password u_password, u.username u_username from articleinfo a left join userinfo u on  a.uid=u.id
+    </select>
+
+</mapper>
