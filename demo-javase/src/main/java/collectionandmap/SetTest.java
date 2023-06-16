@@ -78,5 +78,6 @@ class User implements Comparable{
                 ", name='" + name + '\'' +
                 '}';
     }
+
 }
 

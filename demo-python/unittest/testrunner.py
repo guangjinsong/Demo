@@ -4,8 +4,8 @@
 # 1. 导包
 import unittest
 
-from unittest.case.testcase1 import TestDemo1
-from unittest.case.testcase2 import TestDemo2
+from case.testcase1 import TestDemo1
+from case.testcase2 import TestDemo2
 
 # 2. 实例化
 suite = unittest.TestSuite()
