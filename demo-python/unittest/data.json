@@ -1,0 +1,20 @@
+[
+{
+"desc": "正确的用户名和密码",
+"username": "admin",
+"password": "123456",
+"expect": "登录成功"
+},
+{
+"desc": "错误的的用户名",
+"username": "root",
+"password": "123456",
+"expect": "登录成功"
+},
+{
+"desc": "错误的的密码",
+"username": "admin",
+"password": "123123",
+"expect": "登录成功"
+}
+]
